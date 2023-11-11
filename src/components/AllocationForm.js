@@ -3,11 +3,18 @@ import { AppContext } from "../context/AppContext";
 
 const AllocationForm = (props) => {
   const { dispatch, remaining } = useContext(AppContext);
+  const { currency, getCurrencySymbol } = useContext(AppContext);
 
   const [name, setName] = useState("");
-  const [currency, setCurrency] = useState("");
   const [cost, setCost] = useState("");
   const [action, setAction] = useState("");
+
+  const handleChangeCurrency = (event) => {
+    const newCurrency = event.target.value;
+
+    // Dispatch da ação para atualizar a moeda
+    dispatch({ type: 'CHG_CURRENCY', payload: newCurrency });
+  };
 
   const submitEvent = () => {
     if (cost > remaining) {
@@ -30,19 +37,6 @@ const AllocationForm = (props) => {
         type: "ADD_EXPENSE",
         payload: expense,
       });
-    }
-  };
-
-  const getCurrencySymbol = (currency) => {
-    switch (currency) {
-      case "Dollar":
-        return "$";
-      case "Euro":
-        return "€";
-      case "Pound":
-        return "£";
-      case "Ruppee":
-        return "₹";
     }
   };
 
@@ -103,7 +97,7 @@ const AllocationForm = (props) => {
           <select
             className="custom-select-currency"
             id=""
-            onChange={(event) => setCurrency(event.target.value)}
+            onChange={handleChangeCurrency}
             style={{
               marginLeft: "2rem",
               width: "150px",
@@ -127,7 +121,7 @@ const AllocationForm = (props) => {
 
           <div style={{ marginLeft: "2rem" }}>
             <span style={{ marginRight: "0.2rem" }}>
-              {getCurrencySymbol(currency)}
+            {getCurrencySymbol(currency)}
             </span>
             <input
               required="required"
