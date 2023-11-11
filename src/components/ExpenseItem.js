@@ -25,6 +25,19 @@ const ExpenseItem = (props) => {
 
     }
 
+    const decraseAllocation = (name) => {
+        const expense = {
+            name: name,
+            cost: - 10,
+        };
+
+        dispatch({
+            type: 'ADD_EXPENSE',
+            payload: expense
+        });
+
+    }
+
     return (
         <tr>
         <td>{props.name}</td>
